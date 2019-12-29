@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itheima.dao.PackageDao">
+    <insert id="add" parameterType="package">
+        <selectKey resultType="int" keyProperty="id" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        insert into t_package (name,code,helpCode,sex,age,price,remark,attention,img)
+        values(#{name},#{code},#{helpCode},#{sex},#{age},#{price},#{remark},#{attention},#{img})
+    </insert>
+
+    <insert id="addPackageCheckGroup" parameterType="int">
+        insert into t_package_checkgroup values(#{pkgId}, #{checkgroupId})
+    </insert>
+
+    <select id="findAll" resultType="package">
+        select * from t_package
+    </select>
+
+    <select id="findDetailById" resultMap="packageDetailResultMap" parameterType="int">
+        select p.* ,
+            pg.checkgroup_id, g.name as checkgroup_name, g.remark as checkgroup_remark,
+            cc.checkitem_id, c.name as checkitem_name
+        From
+          t_package p, t_package_checkgroup pg, t_checkgroup g, t_checkgroup_checkitem cc, t_checkitem c
+        where
+          p.id=pg.package_id and pg.checkgroup_id = g.id and g.id=cc.checkgroup_id and cc.checkitem_id=c.id
+        and p.id= #{id}
+    </select>
+    <!--结果集映射-->
+    <resultMap id="packageDetailResultMap" type="Package">
+        <!--套餐-->
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="helpCode" column="helpCode"/>
+        <result property="sex" column="sex"/>
+        <result property="age" column="age"/>
+        <result property="price" column="price"/>
+        <result property="remark" column="remark"/>
+        <result property="attention" column="attention"/>
+        <result property="img" column="img"/>
+        <!--1对多 检查组-->
+        <collection property="checkGroups" ofType="checkgroup">
+            <id property="id" column="checkgroup_id"/>
+            <result property="name" column="checkgroup_name"/>
+            <result property="remark" column="checkgroup_remark"/>
+            <!--1对多，检查项-->
+            <collection property="checkItems" ofType="checkitem">
+                <id property="id" column="checkitem_id"/>
+                <result property="name" column="checkitem_name"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="findDetailById2" parameterType="int" resultMap="packageCheckGroupCheckItemResultMap">
+        select * From t_package where id=#{id}
+    </select>
+
+    <!--套餐的结果映射-->
+    <resultMap id="basePackage" type="package">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="helpCode" column="helpCode"/>
+        <result property="sex" column="sex"/>
+        <result property="age" column="age"/>
+        <result property="price" column="price"/>
+        <result property="remark" column="remark"/>
+        <result property="attention" column="attention"/>
+        <result property="img" column="img"/>
+    </resultMap>
+
+    <resultMap id="packageCheckGroupCheckItemResultMap" type="package" extends="basePackage">
+        <!--column = id 获取套餐的id, 将来用于select语句的条件值
+            select 相当@Many(select) 调用其它命名空间的方法
+        -->
+        <collection property="checkGroups" ofType="checkgroup" column="id"
+                    select="com.itheima.dao.CheckGroupDao.findByPackageId"></collection>
+    </resultMap>
+
+    <select id="findDetailById3" parameterType="int" resultType="package">
+        select p.* ,
+            pg.checkgroup_id as "checkGroups.id", g.name as "checkGroups.name", g.remark as "checkGroups.remark",
+          cc.checkitem_id as "checkGroups.checkItems.id", c.name as "checkGroups.checkItems.name"
+        From
+        t_package p, t_package_checkgroup pg, t_checkgroup g, t_checkgroup_checkitem cc, t_checkitem c
+        where p.id=pg.package_id and pg.checkgroup_id = g.id and g.id=cc.checkgroup_id and cc.checkitem_id=c.id
+        and p.id=#{id}
+    </select>
+
+    <select id="findById" parameterType="int" resultType="package">
+        select * From t_package where id=#{id}
+    </select>
+
+    <select id="getPackageReport" resultType="map">
+        select p.name,count(1) "value"
+        from t_package p, t_order o
+        where o.package_id=p.id
+        group by p.name
+    </select>
+
+</mapper>

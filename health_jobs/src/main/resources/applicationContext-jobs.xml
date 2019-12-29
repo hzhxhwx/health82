@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--扫包 让任务类进入容器-->
+    <context:component-scan base-package="com.itheima.jobs"/>
+
+    <!--注册任务策略-->
+    <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!--任务目标对象-->
+        <property name="targetObject" ref="removeImgFromQiNiuJob"/>
+        <!--任务调用的方法-->
+        <property name="targetMethod" value="doJob"/>
+        <!--禁用并发处理，多个线程跑同一个任务
+            禁用了就变成单线程 设置concurrent=false
+        -->
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    <!--触发器： 调用的时机-->
+    <bean id="trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!--七子表达式 秒 分 时 日 月 周 年，每个位以空格分隔，年可以省略
+            0/2 * * * * ?  从0秒开始，每间隔2秒触发一次
+        -->
+        <property name="cronExpression" value="0/30 * * * * ?"/>
+        <!--绑定jobDetail, 触发时调用jobDetail-->
+        <property name="jobDetail" ref="jobDetail"/>
+    </bean>
+
+    <!--
+        任务调试容器, 按系统时间走，一旦系统时间符合trigger中的表达式，则会触发trigger -> jobDetail -> 任务类.方法
+    -->
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="trigger"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--注入redis-->
+    <import resource="classpath:applicationContext-redis.xml"/>
+</beans>
