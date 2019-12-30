@@ -151,7 +151,7 @@
                                             <tbody>
                                             <tr v-for="c in tableData">
                                                 <td>
-                                                    <input :id="c.id" v-model="checkitemIds" type="checkbox" :value="c.id">
+                                                    <input :id="c.id" v-model="roleIds" type="checkbox" :value="c.id">
                                                 </td>
                                                 <td><label :for="c.id">{{c.name}}</label></td>
                                                 <td><label :for="c.id">{{c.keyword}}</label></td>
@@ -172,7 +172,7 @@
 
                     <!-- 编辑标签弹层 -->
                     <div class="add-form">
-                        <el-dialog title="编辑检查组" :visible.sync="dialogFormVisible4Edit">
+                        <el-dialog title="编辑用户" :visible.sync="dialogFormVisible4Edit">
                             <template>
                                 <el-tabs v-model="activeName" type="card">
                                     <el-tab-pane label="基本信息" name="first">
@@ -236,7 +236,7 @@
                                                 <tbody>
                                                 <tr v-for="c in tableData">
                                                     <td>
-                                                        <input :id="c.id" v-model="checkitemIds" type="checkbox" :value="c.id">
+                                                        <input :id="c.id" v-model="roleIds" type="checkbox" :value="c.id">
                                                     </td>
                                                     <td><label :for="c.id">{{c.name}}</label></td>
                                                     <td><label :for="c.id">{{c.keyword}}</label></td>
@@ -273,7 +273,7 @@
                 dataList: [],//列表数据
                 formData: {},//表单数据
                 tableData:[],//新增和编辑表单中对应的检查项列表数据
-                checkitemIds:[],//选中的检查项编号数据。新增和编辑表单中检查项对应的复选框，基于双向绑定可以进行回显和数据提交
+                roleIds:[],//选中的检查项编号数据。新增和编辑表单中检查项对应的复选框，基于双向绑定可以进行回显和数据提交
                 dialogFormVisible: false,//控制添加窗口显示/隐藏
                 dialogFormVisible4Edit:false//控制编辑窗口显示/隐藏
             },
@@ -283,7 +283,7 @@
             methods: {
                 //编辑
                 handleEdit() {
-                    axios.post('/checkgroup/update.do?checkitemIds=' + this.checkitemIds, this.formData).then(res => {
+                    axios.post('/user/update.do?roleIds=' + this.roleIds, this.formData).then(res => {
                         this.$message({
                             message: res.data.message,
                             type: res.data.flag?'success':'error'
@@ -299,16 +299,16 @@
                 //添加
                 handleAdd () {
                     // 提交数据, json => map  map.put(key, value)
-                    this.formData.checkItems=[];
+                    this.formData.roles=[];
                     //$.each(e,i) 遍历
-                    //this.checkitemIds.forEach(e=>{
+                    //this.roleIds.forEach(e=>{
                         // array的push方法，list.add, {}创建对象,{id: e}
-                        //this.formData.checkItems.push({id: e});
+                        //this.formData.roles.push({id: e});
                     //});
-                    // 把json对象中的checkItems属性删除 map.remove(key)
-                    //delete this.formData.checkItems;
-                    //alert(this.checkitemIds);
-                    axios.post('/checkgroup/add.do?checkitemIds=' + this.checkitemIds, this.formData).then(res => {
+                    // 把json对象中的roles属性删除 map.remove(key)
+                    //delete this.formData.roles;
+                    //alert(this.roleIds);
+                    axios.post('/user/add.do?roleIds=' + this.roleIds, this.formData).then(res => {
                         this.$message({
                             message: res.data.message,
                             type: res.data.flag?'success':'error'
@@ -345,7 +345,7 @@
                 resetForm() {
                     this.formData = {};
                     // 清空选中的检查项
-                    this.checkitemIds = [];
+                    this.roleIds = [];
                     // 选中基本信息标签页
                     this.activeName='first';
                 },
@@ -355,7 +355,7 @@
                     // 弹出添加窗口
                     this.dialogFormVisible = true;
                     // 加载检查项列表数据
-                    axios.get('/checkitem/findAll.do').then(res => {
+                    axios.get('/role/findAll.do').then(res => {
                         if(res.data.flag){
                             //成功绑定检查项列表数据
                             // {flag, message, data: []}
@@ -389,7 +389,7 @@
                                     // 查询选中的检查项id集合
                                     axios.get('/user/findRoleIdsByUserId.do?userId=' + id).then(res2 => {
                                         if(res2.data.flag){
-                                            this.checkitemIds = res2.data.data;
+                                            this.roleIds = res2.data.data;
                                         }else{
                                             this.$message({
                                                 message: res2.data.message,

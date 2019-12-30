@@ -15,6 +15,7 @@ import com.itheima.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -91,5 +92,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(Integer id) {
         return userDao.findById(id);
+    }
+
+    /**
+     * 根据用户id查询角色id
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<Integer> findRoleIdsByUserId(Integer userId) {
+        return userDao.findRoleIdsByUserId(userId);
     }
 }

@@ -94,4 +94,16 @@ public class UserController {
         return new Result(true,MessageConstant.QUERY_USER_SUCCESS,user);
     }
 
+    /**
+     * 根据用户id查询角色id
+     * @param userId
+     * @return
+     */
+    @RequestMapping("/findRoleIdsByUserId")
+    public Result findRoleIdsByUserId(Integer userId){
+        //调用service
+        List<Integer> roleIds = userService.findRoleIdsByUserId(userId);
+        return new Result(true,MessageConstant.QUERY_USER_SUCCESS,roleIds);
+    }
+
 }

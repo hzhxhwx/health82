@@ -4,6 +4,8 @@ import com.itheima.entity.PageResult;
 import com.itheima.entity.QueryPageBean;
 import com.itheima.pojo.User;
 
+import java.util.List;
+
 /**
  * @user: Eric
  * @date: 2019/12/26
@@ -37,4 +39,11 @@ public interface UserService {
      * @return
      */
     User findById(Integer id);
+
+    /**
+     * 根据用户id查询角色id
+     * @param userId
+     * @return
+     */
+    List<Integer> findRoleIdsByUserId(Integer userId);
 }
