@@ -2,6 +2,7 @@ package com.itheima.dao;
 
 import com.github.pagehelper.Page;
 import com.itheima.pojo.Member;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,4 +19,12 @@ public interface MemberDao {
    Integer findMemberCountByDate(String date);
    Integer findMemberCountAfterDate(String date);
    Integer findMemberTotalCount();
+
+   /**
+    * 根据起始日期查询会员数
+    * @param beginDate
+    * @param endDate
+    * @return
+    */
+   Integer findMemberCountBetween(@Param("beginDate") String beginDate, @Param("endDate") String endDate);
 }
