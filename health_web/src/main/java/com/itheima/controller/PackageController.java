@@ -3,6 +3,8 @@ package com.itheima.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.itheima.constant.MessageConstant;
 import com.itheima.constant.RedisConstant;
+import com.itheima.entity.PageResult;
+import com.itheima.entity.QueryPageBean;
 import com.itheima.entity.Result;
 import com.itheima.pojo.Package;
 import com.itheima.service.PackageService;
@@ -73,6 +75,21 @@ public class PackageController {
         // 添加成功后，存储图片到redis中，哪个key 另一个key
         jedisPool.getResource().sadd(RedisConstant.PACKAGE_PIC_DB_RESOURCES, pkg.getImg());
         return new Result(true, MessageConstant.ADD_PACKAGE_SUCCESS);
+    }
+
+
+
+
+    /**
+     * 分页查询，模糊查询
+     *
+     * @param queryPageBean
+     * @return
+     */
+    @PostMapping("/findpage")
+    public Result findPage(@RequestBody QueryPageBean queryPageBean) {
+        PageResult pageResult = packageService.findPage(queryPageBean);
+        return new Result(true, MessageConstant.GET_PACKAGE_LIST_FAIL, pageResult);
     }
 
 }

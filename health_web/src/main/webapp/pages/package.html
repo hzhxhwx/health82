@@ -343,7 +343,25 @@
             },
             //分页查询
             findPage() {
-
+                // if (pageNO != null) {
+                //     this.pagination.currentPage = pageNO;
+                // }
+                //准备分页查询的参数，pageSize,currentPage,queryString
+                var params = {
+                    currentPage: this.pagination.currentPage,
+                    pageSize: this.pagination.pageSize,
+                    queryString: this.pagination.queryString
+                }
+                axios.post("/package/findpage.do", params).then(res => {
+                    if (res.data.flag) {
+                        //分页查询成功，绑定数据模型
+                        this.$message({message: res.data.message, type: "success"});
+                        this.dataList = res.data.data.rows;
+                        this.pagination.total = res.data.data.total;
+                    } else {
+                        this.$message({message: res.data.message, type: "error"});
+                    }
+                })
             },
             //文件上传成功后的钩子，response为服务端返回的值，file为当前上传的文件封装成的js对象
             handleAvatarSuccess(response, file) {
