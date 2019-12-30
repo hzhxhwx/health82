@@ -54,7 +54,9 @@
         mounted (){
             axios.get("/package/getPackage.do").then((response)=>{
                 if(response.data.flag){
-                    this.packageList = response.data.data;
+
+                    //转换json字符串
+                    this.packageList = JSON.parse(response.data.data);
                 }
             });
         }

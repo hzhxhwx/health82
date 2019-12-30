@@ -89,7 +89,8 @@
         mounted(){
             axios.get("/package/findDetailById2.do?id=" + id).then((res) => {
                 if(res.data.flag){
-                    this.package = res.data.data;
+                    //转换json字符串
+                    this.package = JSON.parse(res.data.data);
                 }else{
                     this.$message({
                         message: res.data.message,

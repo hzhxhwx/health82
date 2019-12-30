@@ -23,7 +23,7 @@ public interface PackageService {
      * 查询所有套餐
      * @return
      */
-    List<Package> findAll();
+    List<Package>  findAll();
 
     /**
      * 查询套餐详情
