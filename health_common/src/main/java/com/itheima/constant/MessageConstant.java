@@ -14,6 +14,16 @@ public interface MessageConstant {
     static final String QUERY_USER_SUCCESS = "查询用户成功";
     static final String QUERY_USER_FAIL = "用户查询失败";
 
+    static final String DELETE_ROLE_FAIL = "删除角色失败";
+    static final String DELETE_ROLE_FAIL_USED = "删除角色已经被使用了";
+    static final String DELETE_ROLE_SUCCESS = "删除角色成功";
+    static final String ADD_ROLE_SUCCESS = "新增角色成功";
+    static final String ADD_ROLE_FAIL = "新增角色失败";
+    static final String EDIT_ROLE_FAIL = "编辑角色失败";
+    static final String EDIT_ROLE_SUCCESS = "编辑角色成功";
+    static final String QUERY_ROLE_SUCCESS = "查询角色成功";
+    static final String QUERY_ROLE_FAIL = "用户角色失败";
+
     static final String DELETE_CHECKITEM_FAIL = "删除检查项失败";
     static final String DELETE_CHECKITEM_FAIL_USED = "删除检查项已经被使用了";
     static final String DELETE_CHECKITEM_SUCCESS = "删除检查项成功";
