@@ -185,9 +185,10 @@
             ]
         },
         mounted(){
-            axios.get("/user/getLoginUsername.do").then(res => {
+            axios.get("/user/getuser.do").then(res => {
                 if(res.data.flag){
-                    this.username = res.data.data;
+                    this.username = res.data.data.user.username;
+                    this.menuList=res.data.data.menuList;
                 }else{
                     alert('获取登陆用户名失败');
                 }

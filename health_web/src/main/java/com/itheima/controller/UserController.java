@@ -1,7 +1,10 @@
 package com.itheima.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.itheima.constant.MessageConstant;
 import com.itheima.entity.Result;
+import com.itheima.pojo.Menu;
+import com.itheima.service.MenuService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @user: Eric
@@ -20,6 +25,9 @@ import java.util.ArrayList;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+    @Reference
+    private MenuService menuService;
 
     @GetMapping("/getLoginUsername")
     public Result getLoginUsername(){
@@ -43,4 +51,27 @@ public class UserController {
         });
         System.out.println(list);
     }
+
+
+
+    /**
+     * 获取当前登陆的用户，调用框架api从框架提供的上下文容器中获取当前用户和权限以及菜单
+     *
+     * @return
+     */
+    @GetMapping("/getuser")
+    public Result getUser() {
+        try {
+            HashMap<String, Object> map = new HashMap<>();
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            List<Menu> menuList = menuService.getMenu(user.getUsername());
+
+            map.put("user", user);
+            map.put("menuList",menuList);
+            return new Result(true, MessageConstant.GET_USERNAME_SUCCESS, map);
+        } catch (Exception e) {
+            return new Result(false, MessageConstant.GET_USERNAME_FAIL);
+        }
+    }
+
 }
