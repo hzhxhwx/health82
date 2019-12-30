@@ -21,7 +21,7 @@
         </dependency>
         <dependency>
             <groupId>com.itheima</groupId>
-            <artifactId>health_dao</artifactId>
+            <artifactId>health_jobs</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

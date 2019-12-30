@@ -52,4 +52,10 @@ public interface OrderSettingDao {
      * 更新已预约人数
      */
     void editReservationsByOrderDate(OrderSetting orderSetting);
+
+    /**
+     * 根据日期删除预约设置信息
+     * @param orderDate
+     */
+    void deleteOrderSetting(String orderDate);
 }
