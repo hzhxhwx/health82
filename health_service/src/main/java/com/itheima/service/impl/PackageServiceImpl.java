@@ -21,6 +21,7 @@ public class PackageServiceImpl implements PackageService {
     @Autowired
     private PackageDao packageDao;
 
+
     @Override
     @Transactional
     public void add(Package pkg, Integer[] checkgroupIds) {
@@ -29,7 +30,7 @@ public class PackageServiceImpl implements PackageService {
         // 获取套餐的id
         Integer pkgId = pkg.getId();
         // 循环添加套餐与检查组的关系
-        if(null != checkgroupIds){
+        if (null != checkgroupIds) {
             for (Integer checkgroupId : checkgroupIds) {
                 packageDao.addPackageCheckGroup(pkgId, checkgroupId);
             }
@@ -38,15 +39,17 @@ public class PackageServiceImpl implements PackageService {
 
     /**
      * 查询所有套餐
+     *
      * @return
      */
     @Override
-    public List<Package> findAll() {
+    public List<Package>  findAll() {
         return packageDao.findAll();
     }
 
     /**
      * 查询套餐详情
+     *
      * @param id
      * @return
      */
@@ -59,6 +62,7 @@ public class PackageServiceImpl implements PackageService {
 
     /**
      * 查询套餐详情
+     *
      * @param id
      * @return
      */
@@ -71,6 +75,7 @@ public class PackageServiceImpl implements PackageService {
 
     /**
      * 查询套餐信息
+     *
      * @param id
      * @return
      */
@@ -81,6 +86,7 @@ public class PackageServiceImpl implements PackageService {
 
     /**
      * 获取套餐分组统计信息
+     *
      * @return
      */
     @Override
