@@ -95,4 +95,11 @@
     <select id="findMemberTotalCount" resultType="int">
         select count(id) from t_member
     </select>
+
+    <!--根据起始日期查询会员数列表数量-->
+    <select id="findMemberCountBetween" parameterType="String" resultType="int">
+        select count(id)
+        from t_member
+        where regTime between #{beginDate} and #{endDate}
+    </select>
 </mapper>

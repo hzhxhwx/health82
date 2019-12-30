@@ -1,5 +1,7 @@
 package com.itheima.service;
 
+import com.itheima.entity.Result;
+
 import java.util.Map;
 
 /**
@@ -13,4 +15,12 @@ public interface ReportService {
      * @return
      */
     Map<String,Object> getBusinessReportData();
+
+    /**
+     * 根据选择时间段获取会员折线图
+     * @param beginDate
+     * @param endDate
+     * @return
+     */
+    Result getMemberReportBySelection(String beginDate, String endDate) throws Exception;
 }

@@ -1,19 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <!-- 页面meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>传智健康</title>
-    <meta name="description" content="传智健康">
-    <meta name="keywords" content="传智健康">
-    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
-    <!-- 引入样式 -->
-    <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/echarts.js"></script>
+    <meta charset="UTF-8">
+    <title>test2</title>
 </head>
-<body class="hold-transition">
+<body>
+<script src="../elementUI/vue.js"></script>
+<script src="../elementUI/index.js"></script>
+<script src="../js/axios-0.18.0.js"></script>
+<script src="../js/echarts.js"></script>
+<link rel="stylesheet" href="/elementUI/index.css" />
 <div id="app">
+    <!--<el-date-picker
+            v-model="value1"
+            type="datetime"
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
+            placeholder="选择日期时间">
+    </el-date-picker>-->
+
+    <el-date-picker
+            v-model="beginDate"
+            type="date"
+            placeholder="开始日期">
+    </el-date-picker>
+    <el-date-picker
+            v-model="endDate"
+            type="date"
+            placeholder="结束日期">
+    </el-date-picker>
+
+    <el-button type="primary" @click="clickBtn">显示指定时间段报表会员数</el-button>
+
     <div class="content-header">
         <h1>统计分析
             <small>会员数量</small>
@@ -31,39 +49,96 @@
         </div>
     </div>
 </div>
-</body>
 <!-- 引入组件库 -->
-<script src="../js/vue.js"></script>
-<script src="../js/axios-0.18.0.js"></script>
 <script type="text/javascript">
-    // 基于准备好的dom，初始化echarts实例
-    var myChart1 = echarts.init(document.getElementById('chart1'));
+    new Vue({
+        el: "#app",
+        data: {
+            beginDate: "",
+            endDate: "",
+            months: "",
+            memberCount: ""
+        },
+        methods: {
+            clickBtn: function () {
+                var begin = this.beginDate;
+                var end = this.endDate;
+                var beginDate = begin.getFullYear() + '-' + (begin.getMonth() + 1) + '-' + begin.getDate();
+                var endDate = end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate();
+                axios.post("/report/getMemberBetweenSelectionDate.do?beginDate=" + beginDate + "&endDate=" + endDate).then((response) => {
+                    if(response.data.flag){
+                        this.months = response.data.data.months;
+                        this.memberCount = response.data.data.memberCount;
+                        this.getchart();
+                        this.$message({
+                            message: response.data.message,
+                            type: 'success'
+                        });
+                        }else{
+                            this.$message({
+                                message: response.data.message,
+                                type: 'error'
+                            });
+                        }
+                    });
+            },
+            getchart(){
+                var myChart1 = echarts.init(document.getElementById('chart1'));
+                myChart1.setOption(
+                    {
+                        title: {
+                            text: '会员数量'
+                        },
+                        tooltip: {},
+                        legend: {
+                            data: ['会员数量']
+                        },
+                        xAxis: {
+                            data: this.months
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [{
+                            name: '会员数量',
+                            type: 'line',
+                            data: this.memberCount
+                        }]
+                    });
+            }
+        },
+        mounted(){
+            // 基于准备好的dom，初始化echarts实例
+            var myChart1 = echarts.init(document.getElementById('chart1'));
 
-    // 使用刚指定的配置项和数据显示图表。
-    //myChart.setOption(option);
+            // 使用刚指定的配置项和数据显示图表。
+            //myChart.setOption(option);
 
-    axios.get("/report/getMemberReport.do").then((res) => {
-        myChart1.setOption(
-            {
-                title: {
-                    text: '会员数量'
-                },
-                tooltip: {},
-                legend: {
-                    data: ['会员数量']
-                },
-                xAxis: {
-                    data: res.data.data.months
-                },
-                yAxis: {
-                    type: 'value'
-                },
-                series: [{
-                    name: '会员数量',
-                    type: 'line',
-                    data: res.data.data.memberCount
-                }]
-            });
+            axios.get("/report/getMemberReport.do").then((res) => {
+                myChart1.setOption(
+                    {
+                        title: {
+                            text: '会员数量'
+                        },
+                        tooltip: {},
+                        legend: {
+                            data: ['会员数量']
+                        },
+                        xAxis: {
+                            data: res.data.data.months
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [{
+                            name: '会员数量',
+                            type: 'line',
+                            data: res.data.data.memberCount
+                        }]
+                    });
+        });
+        }
     });
 </script>
+</body>
 </html>

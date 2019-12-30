@@ -14,6 +14,7 @@ import org.jxls.common.Context;
 import org.jxls.transform.poi.PoiContext;
 import org.jxls.util.JxlsHelper;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -170,5 +171,21 @@ public class ReportController {
 
     }
 
-
+    /**
+     * 根据时间获取会员数据
+     * @param beginDate
+     * @param endDate
+     * @return
+     */
+    @PostMapping("/getMemberBetweenSelectionDate")
+    public Result getMemberReportBySelection(String beginDate, String endDate) {
+        Result result = null;
+        try {
+            result = reportService.getMemberReportBySelection(beginDate, endDate);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.GET_MEMBER_NUMBER_REPORT_FAIL);
+        }
+        return result;
+    }
 }
