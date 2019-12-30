@@ -2,6 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.itheima.dao.UserDao">
+<!--    添加用户-->
+
+    <insert id="add" parameterType="User">
+        <selectKey resultType="integer" keyProperty="id" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        insert into t_user
+        (birthday
+        ,gender
+        ,username
+        ,password
+        ,remark
+        ,station
+        ,telephone)
+        values
+        (#{birthday}
+        ,#{gender}
+        ,#{username}
+        ,#{password}
+        ,#{remark}
+        ,#{station}
+        ,#{telephone}
+        )
+    </insert>
+<!--    添加用户和角色的关系-->
+    <insert id="addUserAndRole" parameterType="map">
+        insert into t_user_role (user_id,role_id)
+        values (#{user_id},#{role_id})
+    </insert>
     <select id="findByUsername" parameterType="String" resultType="User">
         select * From t_user where username=#{username}
     </select>

@@ -13,9 +13,12 @@ import com.itheima.pojo.Role;
 import com.itheima.pojo.User;
 import com.itheima.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -102,5 +105,32 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Integer> findRoleIdsByUserId(Integer userId) {
         return userDao.findRoleIdsByUserId(userId);
+    }
+
+    /**
+     * 添加用户
+     * @param roleIds
+     * @param user
+     */
+    @Override
+    public void add(List<Integer> roleIds, User user) {
+        //调用dao
+        String password = user.getPassword();
+        //加密密码
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encode = encoder.encode(password);
+        user.setPassword(encode);
+        userDao.add(user);
+        //遍历roleIds
+        Integer id = user.getId();
+        Map<String, Integer> map = new HashMap<>();
+        for (Integer roleId : roleIds) {
+            //添加关系表
+            map.put("user_id", id);
+            map.put("role_id", roleId);
+
+        }
+        userDao.addUserAndRole(map);
+
     }
 }

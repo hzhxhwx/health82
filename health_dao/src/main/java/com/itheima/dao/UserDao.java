@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.itheima.pojo.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @user: Eric
@@ -43,4 +44,16 @@ public interface UserDao {
      * @return
      */
     List<Integer> findRoleIdsByUserId(Integer userId);
+
+    /**
+     * 添加用户
+     * @param user
+     */
+    void add(User user);
+
+    /**
+     * 添加用户和角色关系
+     * @param map
+     */
+    void addUserAndRole(Map map);
 }

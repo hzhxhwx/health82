@@ -101,7 +101,7 @@ public class ReportController {
         // 创建工作薄
         try (
                 Workbook wk = new XSSFWorkbook(templatePath);
-             OutputStream os = res.getOutputStream();
+             OutputStream os = res.getOutputStream()
         ){
             // 获取工作表
             Sheet sht = wk.getSheetAt(0);

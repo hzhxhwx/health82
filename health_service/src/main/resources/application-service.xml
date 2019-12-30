@@ -21,6 +21,4 @@
     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
     <!--注入dao配置-->
     <import resource="classpath:application-dao.xml"/>
-    <!--读取Spring_jobs配置文件-->
-    <import resource="classpath:applicationContext-jobs.xml"/>
 </beans>

@@ -46,4 +46,11 @@ public interface UserService {
      * @return
      */
     List<Integer> findRoleIdsByUserId(Integer userId);
+
+    /**
+     * 添加用户
+     * @param roleIds
+     * @param user
+     */
+    void add(List<Integer> roleIds, User user);
 }
