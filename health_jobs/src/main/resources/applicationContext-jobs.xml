@@ -18,6 +18,10 @@
         -->
         <property name="concurrent" value="false"/>
     </bean>
+    <bean id="deleteJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="removeImgFromQiNiuJob"/>
+        <property name="targetMethod" value="deleteJob"/>
+    </bean>
 
     <!--触发器： 调用的时机-->
     <bean id="trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
@@ -28,6 +32,10 @@
         <!--绑定jobDetail, 触发时调用jobDetail-->
         <property name="jobDetail" ref="jobDetail"/>
     </bean>
+    <bean id="deleteTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="deleteJob"/>
+        <property name="cronExpression" value="0 0 2 L 1-12 ? *"/>
+    </bean>
 
     <!--
         任务调试容器, 按系统时间走，一旦系统时间符合trigger中的表达式，则会触发trigger -> jobDetail -> 任务类.方法
@@ -36,10 +44,12 @@
         <property name="triggers">
             <list>
                 <ref bean="trigger"/>
+                <ref bean="deleteTrigger"/>
             </list>
         </property>
     </bean>
 
     <!--注入redis-->
     <import resource="classpath:applicationContext-redis.xml"/>
+    <import resource="classpath:application-dao.xml"/>
 </beans>

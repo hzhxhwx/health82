@@ -29,4 +29,9 @@
     <update id="editReservationsByOrderDate" parameterType="com.itheima.pojo.OrderSetting">
         update t_ordersetting set reservations = reservations + 1 where orderDate = #{orderDate} and reservations&lt;number
     </update>
+
+    <!--根据日期删除预约设置信息-->
+    <delete id="deleteOrderSetting" parameterType="String">
+        delete from t_ordersetting where orderDate &lt; #{value}
+    </delete>
 </mapper>
