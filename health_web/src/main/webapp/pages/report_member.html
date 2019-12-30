@@ -67,20 +67,20 @@
                 var endDate = end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate();
                 axios.post("/report/getMemberBetweenSelectionDate.do?beginDate=" + beginDate + "&endDate=" + endDate).then((response) => {
                     if(response.data.flag){
-                    this.months = response.data.data.months;
-                    this.memberCount = response.data.data.memberCount;
-                    this.getchart();
-                    this.$message({
-                        message: response.data.message,
-                        type: 'success'
+                        this.months = response.data.data.months;
+                        this.memberCount = response.data.data.memberCount;
+                        this.getchart();
+                        this.$message({
+                            message: response.data.message,
+                            type: 'success'
+                        });
+                        }else{
+                            this.$message({
+                                message: response.data.message,
+                                type: 'error'
+                            });
+                        }
                     });
-                }else{
-                    this.$message({
-                        message: response.data.message,
-                        type: 'error'
-                    });
-                }
-            });
             },
             getchart(){
                 var myChart1 = echarts.init(document.getElementById('chart1'));
