@@ -88,8 +88,14 @@ public class PackageController {
      */
     @PostMapping("/findpage")
     public Result findPage(@RequestBody QueryPageBean queryPageBean) {
-        PageResult pageResult = packageService.findPage(queryPageBean);
-        return new Result(true, MessageConstant.GET_PACKAGE_LIST_FAIL, pageResult);
+
+        try {
+            PageResult pageResult = packageService.findPage(queryPageBean);
+            return new Result(true, MessageConstant.GET_PACKAGE_LIST_SUCCESS, pageResult);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.GET_PACKAGE_LIST_FAIL);
+        }
     }
 
 }
