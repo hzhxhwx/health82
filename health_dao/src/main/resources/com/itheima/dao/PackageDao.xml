@@ -101,4 +101,14 @@
         group by p.name
     </select>
 
+
+
+    <!--分页模糊查询-->
+    <select id="selectByCondition" parameterType="String" resultType="Package">
+        select * from t_package
+        <if test="value!=null and value.length>0">
+            where code like #{value} or name like #{value}
+        </if>
+    </select>
+
 </mapper>

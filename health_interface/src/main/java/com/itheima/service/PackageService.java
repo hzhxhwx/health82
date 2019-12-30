@@ -1,5 +1,7 @@
 package com.itheima.service;
 
+import com.itheima.entity.PageResult;
+import com.itheima.entity.QueryPageBean;
 import com.itheima.pojo.Package;
 
 import java.util.List;
@@ -51,4 +53,11 @@ public interface PackageService {
      * @return
      */
     List<Map<String,Object>> getPackageReport();
+
+    /**
+     * 分页查询，模糊查询
+     * @param queryPageBean
+     * @return
+     */
+    PageResult findPage(QueryPageBean queryPageBean);
 }

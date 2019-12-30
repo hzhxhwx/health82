@@ -20,10 +20,10 @@ public class MenuServiceImpl implements MenuService {
 
 
     /**
-     * 根据用户名获取当前用户的权限和菜单
+     * 根据用户名获取当前用户的权限和菜单，实现方法一
      *
      * @param username
-     * @return
+     * @return List<Menu>
      */
     @Override
     public List<Menu> getMenu(String username) {
@@ -61,5 +61,49 @@ public class MenuServiceImpl implements MenuService {
             }
         }
         return userMenus;
+    }
+
+    /**
+     * 根据用户名获取当前用户的权限和菜单，实现方法二
+     *
+     * @param username
+     * @return
+     */
+    @Override
+    public List<Menu> getMenu2(String username) {
+
+        //创建List<Menu> userMenus存放用户拥有的父子菜单,最终的返回值
+        ArrayList<Menu> level1MenuList = new ArrayList<>();
+
+        //创建临时变量map，用于中转所有Menu
+        HashMap<Integer, Menu> map = new HashMap<>();
+
+        //根据用户名获取用户权限下的所有菜单（包括父菜单和子菜单）
+        List<Menu> menuList = menuDao.getMenuByUsername(username);
+
+        //遍历所有菜单，转换格式为map<parentMenuId,childernMenu>
+        for (Menu menu : menuList) {
+            Integer parentMenuId = menu.getParentMenuId();
+            map.put(menu.getId(),menu);
+            if(null==parentMenuId){
+                //一级菜单，存入返回的对象
+                level1MenuList.add(menu);
+            }
+        }
+
+
+        for (Menu menu : menuList) {
+            Integer parentMenuId = menu.getParentMenuId();
+            //1.跳过父菜单
+            if(null==parentMenuId){
+                continue;
+            }
+            //2.处理子菜单
+            //2.1获取子菜单的父菜单对象
+            Menu parentMenu = map.get(parentMenuId);
+            //2.2获取父菜单中的子菜单集合，追加子菜单
+            parentMenu.getChildren().add(menu);
+        }
+        return level1MenuList;
     }
 }

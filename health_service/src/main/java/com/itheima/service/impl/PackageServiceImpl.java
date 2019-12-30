@@ -1,11 +1,16 @@
 package com.itheima.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.itheima.dao.PackageDao;
+import com.itheima.entity.PageResult;
+import com.itheima.entity.QueryPageBean;
 import com.itheima.pojo.Package;
 import com.itheima.service.PackageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -84,6 +89,8 @@ public class PackageServiceImpl implements PackageService {
         return packageDao.findById(id);
     }
 
+
+
     /**
      * 获取套餐分组统计信息
      *
@@ -92,5 +99,23 @@ public class PackageServiceImpl implements PackageService {
     @Override
     public List<Map<String, Object>> getPackageReport() {
         return packageDao.getPackageReport();
+    }
+
+    /**
+     * 分页查询，模糊查询
+     * @param queryPageBean
+     * @return
+     */
+    @Override
+    public PageResult findPage(QueryPageBean queryPageBean) {
+        if (!StringUtils.isEmpty(queryPageBean.getQueryString())) {
+            queryPageBean.setQueryString("%" + queryPageBean.getQueryString() + "%");
+        }
+
+        PageHelper.startPage(queryPageBean.getCurrentPage(), queryPageBean.getPageSize());
+        Page<Package> pages = packageDao.selectByCondition(queryPageBean.getQueryString());
+
+        PageResult pageResult = new PageResult(pages.getTotal(), pages.getResult());
+        return pageResult;
     }
 }

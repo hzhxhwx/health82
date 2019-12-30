@@ -58,7 +58,7 @@ public class UserController {
         try {
             HashMap<String, Object> map = new HashMap<>();
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            List<Menu> menuList = menuService.getMenu(user.getUsername());
+            List<Menu> menuList = menuService.getMenu2(user.getUsername());
 
             map.put("user", user);
             map.put("menuList",menuList);

@@ -5,7 +5,7 @@
 <mapper namespace="com.itheima.dao.MenuDao">
 
     <select id="getMenuByUsername" parameterType="String" resultType="Menu">
-            SELECT m.name title,m.path,m.icon,m.parentMenuId,m.linkUrl
+            SELECT m.id,m.name title,m.path,m.icon,m.parentMenuId,m.linkUrl
             FROM
                 t_menu m,t_role_menu rm,t_user_role ur,t_user u
             WHERE

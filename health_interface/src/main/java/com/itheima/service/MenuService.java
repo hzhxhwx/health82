@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface MenuService {
     List<Menu> getMenu(String username);
+
+    List<Menu> getMenu2(String username);
 }

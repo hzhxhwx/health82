@@ -1,5 +1,6 @@
 package com.itheima.dao;
 
+import com.github.pagehelper.Page;
 import com.itheima.pojo.Package;
 import org.apache.ibatis.annotations.Param;
 
@@ -55,4 +56,11 @@ public interface PackageDao {
      * @return
      */
     List<Map<String,Object>> getPackageReport();
+
+    /**
+     * 分页查询，模糊查询
+     * @param queryString
+     * @return
+     */
+    Page<Package> selectByCondition(String queryString);
 }
