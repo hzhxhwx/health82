@@ -30,28 +30,25 @@ public class MenuServiceImpl implements MenuService {
 
         //创建List<Menu> userMenus存放用户拥有的父子菜单
         ArrayList<Menu> userMenus = new ArrayList<>();
-        HashMap<Integer, Object> userMenusMap = new HashMap<>();
 
-
-        //根据用户名获取用户权限下的所有菜单
+        //根据用户名获取用户权限下的所有菜单（包括父菜单和子菜单）
         List<Menu> menuList = menuDao.getMenuByUsername(username);
 
         for (Menu menu : menuList) {
             //组装父菜单和子菜单
             Integer parentMenuId = menu.getParentMenuId();
             if (null == parentMenuId) {
-                //没有上级菜单，说明这就是一级菜单了,new一个list集合,要去找到他的子菜单
+                //没有上级菜单，说明这就是一级菜单了,new一个children集合存放这个父菜单中的所有子菜单,子菜单也在menuList中
                 ArrayList<Menu> children = new ArrayList<>();
 
-
+                //获取父菜单的path，与子菜单path中的第一有效字符比较
                 String parentMenuPath = menu.getPath();
                 for (Menu  childrenMenu : menuList) {
-                    String path = childrenMenu.getPath();
-                    //截取菜单的path
+                    String pathStr = childrenMenu.getPath();
+                    //截取菜单的path中的第一个有效字符，以此判断父菜单
                     try {
-                        String[] paths = path.split("-");
-                        String number = paths[0].substring(1);
-                        if (number.equals(parentMenuPath)){
+                        String pathParentNumber = pathStr.split("-")[0].substring(1);
+                        if (pathParentNumber.equals(parentMenuPath)){
                             //将子菜单加入父菜单
                             children.add(childrenMenu);
                         }
@@ -62,10 +59,7 @@ public class MenuServiceImpl implements MenuService {
                 menu.setChildren(children);
                 userMenus.add(menu);
             }
-
         }
-
-        System.out.println("====================================================================");
         return userMenus;
     }
 }
