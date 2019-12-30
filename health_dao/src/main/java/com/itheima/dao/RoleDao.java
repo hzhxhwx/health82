@@ -2,6 +2,7 @@ package com.itheima.dao;
 
 import com.itheima.pojo.Role;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -16,4 +17,10 @@ public interface RoleDao {
      * @return
      */
     Set<Role> findByUserId(Integer userId);
+
+    /**
+     * 查询所有角色
+     * @return
+     */
+    List<Role> findAll();
 }
