@@ -4,6 +4,16 @@ package com.itheima.constant;
  * 消息常量
  */
 public interface MessageConstant {
+    static final String DELETE_USER_FAIL = "删除用户失败";
+    static final String DELETE_USER_FAIL_USED = "删除用户已经被使用了";
+    static final String DELETE_USER_SUCCESS = "删除用户成功";
+    static final String ADD_USER_SUCCESS = "新增用户成功";
+    static final String ADD_USER_FAIL = "新增用户失败";
+    static final String EDIT_USER_FAIL = "编辑用户失败";
+    static final String EDIT_USER_SUCCESS = "编辑用户成功";
+    static final String QUERY_USER_SUCCESS = "查询用户成功";
+    static final String QUERY_USER_FAIL = "用户查询失败";
+
     static final String DELETE_CHECKITEM_FAIL = "删除检查项失败";
     static final String DELETE_CHECKITEM_FAIL_USED = "删除检查项已经被使用了";
     static final String DELETE_CHECKITEM_SUCCESS = "删除检查项成功";
@@ -18,6 +28,7 @@ public interface MessageConstant {
     static final String ADD_CHECKGROUP_SUCCESS = "新增检查组成功";
     static final String DELETE_CHECKGROUP_FAIL = "删除检查组失败";
     static final String DELETE_CHECKGROUP_SUCCESS = "删除检查组成功";
+
     static final String QUERY_CHECKGROUP_SUCCESS = "查询检查组成功";
     static final String QUERY_CHECKGROUP_FAIL = "查询检查组失败";
     static final String EDIT_CHECKGROUP_FAIL = "编辑检查组失败";

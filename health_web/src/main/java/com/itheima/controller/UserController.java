@@ -2,18 +2,21 @@ package com.itheima.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.itheima.constant.MessageConstant;
+import com.itheima.entity.PageResult;
+import com.itheima.entity.QueryPageBean;
 import com.itheima.entity.Result;
 import com.itheima.pojo.Menu;
 import com.itheima.service.MenuService;
+import com.itheima.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,6 +32,8 @@ public class UserController {
     @Reference
     private MenuService menuService;
 
+    @Reference
+    private UserService userService;
     @GetMapping("/getLoginUsername")
     public Result getLoginUsername(){
         // security的配置信息 session
@@ -39,17 +44,6 @@ public class UserController {
         // 主角，主事人=》登陆用户
         User principal = (User) authentication.getPrincipal();
         return new Result(true, MessageConstant.GET_USERNAME_SUCCESS, principal.getUsername());
-    }
-
-    public static void main(String[] args) {
-        ArrayList<String> list = new ArrayList<String>();
-        list.add("aaaa");
-        list.add("bbbb");
-        list.add("cccc");
-        list.forEach(l->{
-            l = l + "123";
-        });
-        System.out.println(list);
     }
 
 
@@ -72,6 +66,32 @@ public class UserController {
         } catch (Exception e) {
             return new Result(false, MessageConstant.GET_USERNAME_FAIL);
         }
+    }
+
+    /**
+     * 用户分页查询
+     * @param queryPageBean
+     * @return
+     */
+    @RequestMapping("/findPage")
+    public Result findPage(@RequestBody QueryPageBean queryPageBean){
+        //调用service
+        PageResult<com.itheima.pojo.User> result = userService.findPage(queryPageBean);
+        return new Result(true,MessageConstant.QUERY_USER_SUCCESS,result);
+
+
+    }
+
+    /**
+     * 根据id查询user
+     * @param id
+     * @return
+     */
+    @RequestMapping("/findById")
+    public Result findById(Integer id){
+        //调用service
+        com.itheima.pojo.User user = userService.findById(id);
+        return new Result(true,MessageConstant.QUERY_USER_SUCCESS,user);
     }
 
 }

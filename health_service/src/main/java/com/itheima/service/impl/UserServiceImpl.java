@@ -1,16 +1,20 @@
 package com.itheima.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.itheima.dao.PermissionDao;
 import com.itheima.dao.RoleDao;
 import com.itheima.dao.UserDao;
+import com.itheima.entity.PageResult;
+import com.itheima.entity.QueryPageBean;
 import com.itheima.pojo.Permission;
 import com.itheima.pojo.Role;
 import com.itheima.pojo.User;
 import com.itheima.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -57,5 +61,35 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername2(String username) {
         return userDao.findUserRolePermissionByUsername(username);
+    }
+
+    /**
+     * 用户分页查询
+     * @param queryPageBean
+     * @return
+     */
+    @Override
+    public PageResult<User> findPage(QueryPageBean queryPageBean) {
+        // 判断是否有查询条件
+        if(!StringUtils.isEmpty(queryPageBean.getQueryString())){
+            queryPageBean.setQueryString("%" + queryPageBean.getQueryString()+ "%");
+        }
+        // 使用分页插件
+        PageHelper.startPage(queryPageBean.getCurrentPage(), queryPageBean.getPageSize());
+        // 紧接着的查询语句会被分页, page对象没插件的分页信息
+        Page<User> page = userDao.findPage(queryPageBean.getQueryString());
+        // 构建返回的分页结果, page.getResult()分页的结果集
+        PageResult<User> pageResult = new PageResult<>(page.getTotal(), page.getResult());
+        return pageResult;
+    }
+
+    /**
+     * 通过id 查询user
+     * @param id
+     * @return
+     */
+    @Override
+    public User findById(Integer id) {
+        return userDao.findById(id);
     }
 }

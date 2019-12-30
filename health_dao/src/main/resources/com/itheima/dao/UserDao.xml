@@ -17,6 +17,20 @@
         and username=#{username}
     </select>
 
+<!--    用户分页查询-->
+    <select id="findPage" resultType="com.itheima.pojo.User" parameterType="string">
+        select * From t_user
+        <where>
+            <if test="value != null and value.length > 0">
+                username like #{value} or telephone like #{value}
+            </if>
+        </where>
+    </select>
+<!--    通过id查询user-->
+    <select id="findById" resultType="com.itheima.pojo.User" parameterType="integer">
+        select * from t_user where id = #{id}
+    </select>
+
     <resultMap id="userRolePermissionResultMap" type="User">
         <id column="id" property="id"/>
         <result column="username" property="username"/>
