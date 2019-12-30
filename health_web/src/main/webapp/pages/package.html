@@ -109,7 +109,7 @@
             <div class="filter-container">
                 <el-input placeholder="编码/名称/助记码" v-model="pagination.queryString" style="width: 200px;"
                           class="filter-item" @keyup.enter.native="handleFilter"></el-input>
-                <el-button @click="findPage()" class="dalfBut">查询</el-button>
+                <el-button @click="findPage(1)" class="dalfBut">查询</el-button>
                 <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
             </div>
             <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
@@ -342,10 +342,11 @@
                 });
             },
             //分页查询
-            findPage() {
-                // if (pageNO != null) {
-                //     this.pagination.currentPage = pageNO;
-                // }
+            findPage(pageNo) {
+                if(pageNo){
+                    // 参数有值
+                    this.pagination.currentPage = pageNo;
+                }
                 //准备分页查询的参数，pageSize,currentPage,queryString
                 var params = {
                     currentPage: this.pagination.currentPage,
@@ -402,6 +403,7 @@
             },
             //切换页码
             handleCurrentChange(currentPage) {
+                this.findPage(currentPage);
             }
         }
     })
