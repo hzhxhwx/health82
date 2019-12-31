@@ -33,4 +33,13 @@ public interface OrderDao {
     List<Map<String,Object>> findHotPackage();
 
     Integer findOrderCountBetweenDate(@Param("startDate") String startDate, @Param("endDate") String endDate);
+
+    /**
+     * 查询会员预约当前日期的电话号码
+     * @param date 预约日期
+     * @return
+     */
+    List<String> queryMemberTelephone(String date);
+
+
 }

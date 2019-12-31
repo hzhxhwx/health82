@@ -45,8 +45,19 @@
             <list>
                 <ref bean="trigger"/>
                 <ref bean="deleteTrigger"/>
+                <ref bean="remindTrigger"/>
             </list>
         </property>
+    </bean>
+
+    <bean id="remindJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="remindJob"/>
+        <property name="targetMethod" value="remindJobTelephone"/>
+    </bean>
+    <bean id="remindTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="cronExpression" value="0 0 12 * * ? *"/>
+        <!--<property name="cronExpression" value="0/2 * * * * ?"/>-->
+        <property name="jobDetail" ref="remindJobDetail"/>
     </bean>
 
     <!--注入redis-->
