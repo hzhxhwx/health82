@@ -371,19 +371,20 @@
                 // 弹出编辑窗口
                 this.dialogFormVisible4Edit = true;
                 // 检查组id
+                alert(row.id);
                 var id = row.id;
                 axios.get('/menu/findById.do?id=' + id).then(res => {
                     if(res.data.flag){
                         // 成功
                         this.formData = res.data.data;
                         // 加载检查项列表数据
-                        axios.get('/checkitem/findAll.do').then(res1 => {
+                        axios.get('/role/findAll.do').then(res1 => {
                             if(res1.data.flag){
                                 //成功绑定检查项列表数据
                                 // {flag, message, data: []}
                                 this.tableData = res1.data.data;
                                 // 查询选中的检查项id集合
-                                axios.get('/menu/findroleIdsBymenuId.do?menuId=' + id).then(res2 => {
+                                axios.get('/menu/findRoleIdsByMenuId.do?menuId=' + id).then(res2 => {
                                     if(res2.data.flag){
                                         this.roleIds = res2.data.data;
                                     }else{

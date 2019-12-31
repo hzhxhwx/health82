@@ -169,4 +169,39 @@ public class MenuServiceImpl implements MenuService {
         }
 
     }
+
+    /**
+     * 更新菜单
+     * @param menu
+     * @param roleIds
+     */
+    @Override
+    public void update(Menu menu, Integer[] roleIds) {
+        //调用dao更新用户
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id",menu.getId());
+        map.put("name",menu.getTitle());
+        map.put("linkUrl",menu.getLinkUrl());
+        map.put("path",menu.getPath());
+        map.put("priority",menu.getPriority());
+        map.put("description",menu.getDescription());
+        map.put("icon",menu.getIcon());
+        map.put("parentMenuId",menu.getParentMenuId());
+        menuDao.update(map);
+
+        //删除用户和角色的关系
+        menuDao.deleteAssociationWithRole(menu.getId());
+
+        addMenuAndRole(roleIds,menu);
+    }
+
+    /**
+     * 根据菜单id查询角色id
+     * @param menuId
+     * @return
+     */
+    @Override
+    public List<Integer> findRoleIdsByMenuId(Integer menuId) {
+        return menuDao.findRoleIdsByMenuId(menuId);
+    }
 }
