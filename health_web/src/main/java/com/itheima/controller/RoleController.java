@@ -9,7 +9,6 @@ import com.itheima.pojo.Role;
 import com.itheima.service.RoleService;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.handler.MessageContext;
 import java.util.List;
 
 /**
@@ -78,5 +77,10 @@ public class RoleController {
     public Result add(@RequestBody Role role){
         roleService.add(role);
         return new Result(true,MessageConstant.ADD_ROLE_SUCCESS);
+    }
+    @RequestMapping("/findAll")
+    public Result findAll(){
+        List<Role> list = roleService.findAll();
+        return new Result(true,MessageConstant.QUERY_ROLE_SUCCESS,list);
     }
 }

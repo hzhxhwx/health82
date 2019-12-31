@@ -3,6 +3,7 @@ package com.itheima.dao;
 import com.github.pagehelper.Page;
 import com.itheima.pojo.Role;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -51,4 +52,5 @@ public interface RoleDao {
     void add(Role role);
 
 
+    List<Role> findAll();
 }

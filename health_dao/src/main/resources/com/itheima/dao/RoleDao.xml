@@ -20,6 +20,10 @@
     <select id="findById" resultType="Role">
         select * from t_role where id=#{id}
     </select>
+<!--    查询所有角色-->
+    <select id="findAll" resultType="com.itheima.pojo.Role">
+        select * from t_role
+    </select>
 
     <!--编辑角色-->
     <update id="update" parameterType="Role">

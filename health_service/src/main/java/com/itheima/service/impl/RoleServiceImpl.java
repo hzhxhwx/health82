@@ -11,6 +11,8 @@ import com.itheima.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 /**
  * @Author hzh
@@ -85,5 +87,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void add(Role role) {
         roleDao.add(role);
+    }
+
+    @Override
+    public List<Role> findAll() {
+        return roleDao.findAll();
     }
 }
