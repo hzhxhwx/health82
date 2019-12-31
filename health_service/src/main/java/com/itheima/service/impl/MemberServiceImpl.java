@@ -88,4 +88,49 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
+    /**
+     * 根据会员性别分类, 获取会员数量
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> getMemberCountBySex() {
+        return memberDao.getMemberCountBySex();
+    }
+
+    /**
+     * 根据会员年龄段分类, 获取会员数量
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> getMemberCountByAge() throws Exception {
+        String eighteenYearsBefore = DateUtils.parseDate2String(DateUtils.backwardCertainYears(-18));
+        String thirtyYearsBefore = DateUtils.parseDate2String(DateUtils.backwardCertainYears(-30));
+        String fortyFiveYearsBefore = DateUtils.parseDate2String(DateUtils.backwardCertainYears(-45));
+        String today = DateUtils.parseDate2String(DateUtils.getToday());
+
+        List<Map<String, Object>> list = memberDao.getMemberCountByAge(
+                today,
+                eighteenYearsBefore,
+                thirtyYearsBefore,
+                fortyFiveYearsBefore);
+        //创建一个新的mapList
+        List<Map<String,Object>> mapList = new ArrayList<>();
+
+        for (Map<String, Object> map : list) {
+            Map<String,Object> map2 = new HashMap<>();
+
+            String ageCategory = (String) map.get("ageCategory");
+            Long value = (Long) map.get("value");
+
+            map2.put("name",ageCategory);
+            map2.put("value",value);
+
+            mapList.add(map2);
+
+        }
+
+
+        return mapList;
+    }
+
 }

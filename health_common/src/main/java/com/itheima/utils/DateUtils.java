@@ -307,6 +307,13 @@ public class DateUtils {
         return calendar.getTime();
     }
 
+    //以今日日期为起始日, 往前推算若干年
+    public static Date backwardCertainYears(Integer numberOfYear){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.YEAR,numberOfYear);
+        return calendar.getTime();
+    }
+
     public static void main(String[] args) {
         try {
             System.out.println("本周一" + parseDate2String(getThisWeekMonday()));

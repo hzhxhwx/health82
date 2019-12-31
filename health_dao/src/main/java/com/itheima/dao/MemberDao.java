@@ -5,6 +5,7 @@ import com.itheima.pojo.Member;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MemberDao {
    List<Member> findAll();
@@ -27,4 +28,20 @@ public interface MemberDao {
     * @return
     */
    Integer findMemberCountBetween(@Param("beginDate") String beginDate, @Param("endDate") String endDate);
+
+   /**
+    * 根据会员性别分类, 获取会员数量
+    * @return
+    */
+   List<Map<String,Object>> getMemberCountBySex();
+
+   /**
+    * 根据会员年龄段分类, 获取会员数量
+    * @return
+    */
+   List<Map<String,Object>> getMemberCountByAge(
+           @Param("today") String date1,
+           @Param("eighteenYearsBefore") String date2,
+           @Param("thirtyYearsBefore") String date3,
+           @Param("fortyFiveYearsBefore") String date4);
 }

@@ -30,4 +30,16 @@ public interface MemberService {
      * @return
      */
     Map<String,List<Object>> getMemberReport();
+
+    /**
+     * 根据会员性别分类, 获取会员数量
+     * @return
+     */
+    List<Map<String,Object>> getMemberCountBySex();
+
+    /**
+     * 根据会员年龄段分类, 获取会员数量
+     * @return
+     */
+    List<Map<String,Object>> getMemberCountByAge() throws Exception;
 }

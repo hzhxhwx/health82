@@ -188,4 +188,61 @@ public class ReportController {
         }
         return result;
     }
+
+    /**
+     * 按会员性别分类, 并在前端以扇形图展示
+     * @return
+     */
+    @PostMapping("/getMemberBySexReport")
+    public Result getMemberBySexReport(){
+        //定义一个返回到前端的容器
+        Map map = new HashMap();
+        //调用业务层方法, 获得对应数据
+        List<Map<String,Object>> list1 = memberService.getMemberCountBySex();
+        if(list1 == null){
+            return new Result(false,MessageConstant.GET_MEMBER_NUMBER_REPORT_FAIL);
+        }
+        //放入到容器里
+        map.put("memberCountBySex",list1);
+        //创建另一个list
+        List<String> list2 = new ArrayList<>();
+        //将name单独拿出来, 放到map的另一个键值里
+        for (Map<String, Object> map1 : list1) {
+            String name = (String) map1.get("name");
+            list2.add(name);
+        }
+        map.put("memberName",list2);
+        return new Result(true,MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS,map);
+    }
+
+    /**
+     * 根据会员年龄段分类, 获取会员数量
+     * @return
+     */
+    @PostMapping("/getMemberByAgeReport")
+    public Result getMemberByAgeReport(){
+        Map map = new HashMap();
+
+        try {
+            List<Map<String,Object>> list1 = memberService.getMemberCountByAge();
+
+            map.put("memberCountByAge",list1);
+
+            List<String> list2 = new ArrayList<>();
+            for (Map<String, Object> map2 : list1) {
+                String name = (String) map2.get("name");
+
+                list2.add(name);
+            }
+
+            map.put("memberName",list2);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,MessageConstant.GET_MEMBER_NUMBER_REPORT_FAIL);
+        }
+
+        return new Result(true,MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS,map);
+
+
+    }
 }

@@ -102,4 +102,24 @@
         from t_member
         where regTime between #{beginDate} and #{endDate}
     </select>
+
+    <!--根据会员性别分类, 获取会员数量-->
+    <select id="getMemberCountBySex" resultType="java.util.Map">
+        select count(0) value,
+        case sex when 1 then '男'
+        else '女' end as name
+        from t_member GROUP BY sex
+    </select>
+
+    <!--根据会员年龄段分类, 获取会员数量-->
+    <select id="getMemberCountByAge" resultType="java.util.Map">
+        select count(0) value,
+        case when birthday between #{eighteenYearsBefore} and #{today} then '0-18岁'
+        when birthday between #{thirtyYearsBefore} and #{eighteenYearsBefore} then '18-30岁'
+        when birthday between #{fortyFiveYearsBefore} and #{thirtyYearsBefore} then '30-45岁'
+        else '45岁以上'
+        end as ageCategory
+        from t_member
+        GROUP BY ageCategory
+    </select>
 </mapper>
