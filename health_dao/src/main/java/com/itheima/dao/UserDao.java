@@ -56,4 +56,16 @@ public interface UserDao {
      * @param map
      */
     void addUserAndRole(Map map);
+
+    /**
+     * 更新用户
+     * @param user
+     */
+    void update(User user);
+
+    /**
+     * 删除用户和角色的关系
+     * @param id
+     */
+    void deleteUserAndRole(Integer id);
 }

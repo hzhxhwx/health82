@@ -31,6 +31,16 @@
         insert into t_user_role (user_id,role_id)
         values (#{user_id},#{role_id})
     </insert>
+<!--    更新用户-->
+    <update id="update" parameterType="User">
+        update t_user set birthday = #{birthday},gender = #{gender},
+        username =#{username},password = #{password}, remark = #{remark},
+        station = #{station},telephone = #{telephone} where id = #{id}
+    </update>
+<!--    删除用户和角色的关系-->
+    <delete id="deleteUserAndRole" parameterType="integer">
+        delete from t_user_role where user_id = #{id}
+    </delete>
     <select id="findByUsername" parameterType="String" resultType="User">
         select * From t_user where username=#{username}
     </select>

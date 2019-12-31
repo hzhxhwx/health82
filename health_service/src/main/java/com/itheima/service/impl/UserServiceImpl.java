@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserService {
      * @param user
      */
     @Override
-    public void add(List<Integer> roleIds, User user) {
+    public void add(Integer[] roleIds, User user) {
         //调用dao
         String password = user.getPassword();
         //加密密码
@@ -121,16 +121,45 @@ public class UserServiceImpl implements UserService {
         String encode = encoder.encode(password);
         user.setPassword(encode);
         userDao.add(user);
-        //遍历roleIds
+
+        addUserAndRole(roleIds,user);
+
+    }
+
+    /**
+     * 更新用户
+     * @param roleIds
+     * @param user
+     */
+    @Override
+    public void update(Integer[] roleIds, User user) {
+        //调用dao更新用户
+        userDao.update(user);
+
+        //删除用户和角色的关系
+        userDao.deleteUserAndRole(user.getId());
+
+        addUserAndRole(roleIds,user);
+
+    }
+
+    /**
+     * 更新用户和角色的关系
+     * @param roleIds
+     * @param user
+     */
+    public void addUserAndRole(Integer[] roleIds, User user){
         Integer id = user.getId();
         Map<String, Integer> map = new HashMap<>();
-        for (Integer roleId : roleIds) {
-            //添加关系表
-            map.put("user_id", id);
-            map.put("role_id", roleId);
+       if (id!=null){
+           for (Integer roleId : roleIds) {
+               //添加关系表
+               map.put("user_id", id);
+               map.put("role_id", roleId);
 
-        }
-        userDao.addUserAndRole(map);
+           }
+           userDao.addUserAndRole(map);
+       }
 
     }
 }

@@ -108,9 +108,20 @@ public class UserController {
      * @return
      */
     @RequestMapping("/add")
-    public Result add(@RequestParam("roleIds") List<Integer> roleIds, @RequestBody com.itheima.pojo.User user){
+    public Result add(@RequestParam("roleIds") Integer[] roleIds, @RequestBody com.itheima.pojo.User user){
         //调用service
         userService.add(roleIds,user);
         return new Result(true,MessageConstant.ADD_USER_SUCCESS);
+    }
+
+    /**
+     * 更新用户
+     * @return
+     */
+    @RequestMapping("/update")
+    public Result update(@RequestParam("roleIds") Integer[] roleIds, @RequestBody com.itheima.pojo.User user){
+        //调用service
+        userService.update(roleIds,user);
+        return new Result(true,MessageConstant.EDIT_USER_SUCCESS);
     }
 }

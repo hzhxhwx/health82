@@ -52,5 +52,12 @@ public interface UserService {
      * @param roleIds
      * @param user
      */
-    void add(List<Integer> roleIds, User user);
+    void add(Integer[] roleIds, User user);
+
+    /**
+     * 更新用户
+     * @param roleIds
+     * @param user
+     */
+    void update(Integer[] roleIds, User user);
 }
