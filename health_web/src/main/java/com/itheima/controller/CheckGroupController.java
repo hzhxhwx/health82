@@ -7,7 +7,10 @@ import com.itheima.entity.QueryPageBean;
 import com.itheima.entity.Result;
 import com.itheima.pojo.CheckGroup;
 import com.itheima.service.CheckGroupService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import java.util.List;
 
@@ -22,7 +25,8 @@ public class CheckGroupController {
 
     @Reference
     private CheckGroupService checkGroupService;
-
+    @Autowired
+    private JedisPool jedisPool;
     /**
      * 添加检查组
      * @param checkGroup
@@ -33,6 +37,9 @@ public class CheckGroupController {
     public Result add(@RequestBody CheckGroup checkGroup, Integer[] checkitemIds){
         // 调用业务服务添加检查组
         checkGroupService.add(checkGroup, checkitemIds);
+        //清除redis中的套餐缓存
+        Jedis jedis = jedisPool.getResource();
+        jedis.del("packages");
         return new Result(true, MessageConstant.ADD_CHECKGROUP_SUCCESS);
     }
 
