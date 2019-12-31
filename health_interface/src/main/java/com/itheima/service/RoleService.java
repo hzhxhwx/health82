@@ -39,4 +39,6 @@ public interface RoleService {
     void delete(Integer id);
 
     void add(Role role);
+
+    List<Role> findAll();
 }
