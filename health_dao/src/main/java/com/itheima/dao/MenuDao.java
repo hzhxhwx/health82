@@ -64,4 +64,6 @@ public interface MenuDao {
      * @param id
      */
     void delete(Integer id);
+
+    Menu findById(Integer id);
 }

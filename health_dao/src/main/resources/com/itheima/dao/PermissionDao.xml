@@ -59,6 +59,10 @@
             </if>
         </where>
     </select>
+<!--    根据权限id查询角色id-->
+    <select id="findRoleIdsByPermissionId" resultType="java.lang.Integer" parameterType="integer">
+        select role_id from t_role_permission where permission_id= #{permissonId}
+    </select>
 
     <!--添加中间表关系-->
     <insert id="addPermissionRole" parameterType="Integer">

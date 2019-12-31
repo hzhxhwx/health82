@@ -339,7 +339,7 @@
                                 // 查询选中的检查项id集合
                                 axios.get('/permission/findRoleIdsByPermissionId.do?permissonId=' + id).then(res2 => {
                                     if(res2.data.flag){
-                                        this.checkitemIds = res2.data.data;
+                                        this.roleIds = res2.data.data;
                                     }else{
                                         this.$message({
                                             message: res2.data.message,

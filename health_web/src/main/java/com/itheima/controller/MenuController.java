@@ -56,9 +56,15 @@ public class MenuController {
     /**
      * 通过id删除菜单
      */
-    @RequestMapping
+    @RequestMapping("/delete")
     public Result delete(Integer id){
         menuService.delete(id);
-        return new Result(true, MessageConstant.DELETE_MEMBER_SUCCESS);
+        return new Result(true, MessageConstant.DELETE_MENU_SUCCESS);
+    }
+
+    @RequestMapping("/findById")
+    public Result findById(Integer id){
+        Menu menu = menuService.findById(id);
+        return new Result(true,MessageConstant.QUERY_MENU_SUCCESS,menu);
     }
 }

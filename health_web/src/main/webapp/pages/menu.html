@@ -322,7 +322,7 @@
                     this.pagination.currentPage = pageNo;
                 }
                 // 分页的数据pagination, 大小，页码，条件
-                axios.post('/menu/findPage.do', this.pagination).then(res => {
+                axios.post('/menu/findPage.do',this.pagination).then(res => {
                     if(res.data.flag){
                         //绑定结果集到dataList
                         this.dataList = res.data.data.rows;

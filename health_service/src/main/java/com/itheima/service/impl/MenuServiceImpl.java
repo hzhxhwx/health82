@@ -212,4 +212,9 @@ public class MenuServiceImpl implements MenuService {
         //调用dao通过id删除权限
         menuDao.delete(id);
     }
+
+    @Override
+    public Menu findById(Integer id) {
+        return menuDao.findById(id);
+    }
 }

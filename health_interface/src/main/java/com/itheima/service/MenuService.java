@@ -47,4 +47,6 @@ public interface MenuService {
      * @param id
      */
 	void delete(Integer id);
+
+    Menu findById(Integer id);
 }

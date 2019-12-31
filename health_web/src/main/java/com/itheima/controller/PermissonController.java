@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/permission")
@@ -81,5 +83,11 @@ public class PermissonController {
 		// 调用业务服务修改检查组
 		permissionService.update(permission, roleIds);
 		return new Result(true, MessageConstant.EDIT_CHECKGROUP_SUCCESS);
+	}
+	@RequestMapping("/findRoleIdsByPermissionId")
+	public Result findRoleIdsByPermissionId(Integer permissonId){
+		List<Integer> list = permissionService.findRoleIdsByPermissionId(permissonId);
+		return new Result(true,"查询成功",list);
+
 	}
 }

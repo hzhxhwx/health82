@@ -3,11 +3,9 @@ package com.itheima.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.itheima.dao.CheckGroupDao;
 import com.itheima.dao.PermissionDao;
 import com.itheima.entity.PageResult;
 import com.itheima.entity.QueryPageBean;
-import com.itheima.pojo.CheckGroup;
 import com.itheima.pojo.Permission;
 import com.itheima.service.PermissionService;
 import org.apache.ibatis.session.ExecutorType;
@@ -110,5 +108,15 @@ public class PermissionServiceImpl implements PermissionService {
 			sqlSession.flushStatements();
 			sqlSession.close();
 		}
+	}
+
+	/**
+	 * 根据权限id查询角色id
+	 * @param permissonId
+	 * @return
+	 */
+	@Override
+	public List<Integer> findRoleIdsByPermissionId(Integer permissonId) {
+		return permissionDao.findRoleIdsByPermissionId(permissonId);
 	}
 }

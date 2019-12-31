@@ -70,4 +70,11 @@ public interface PermissionDao {
 	 * @param roleId
 	 */
 	void addPermissionRole(@Param("roleId") Integer roleId, @Param("permissionId") Integer permissionId);
+
+	/**
+	 * 根据权限id查询角色id
+	 * @param permissonId
+	 * @return
+	 */
+    List<Integer> findRoleIdsByPermissionId(Integer permissonId);
 }

@@ -42,4 +42,10 @@ public interface PermissionService {
 	 */
 	void update(Permission permission, Integer[] roleIds);
 
+	/**
+	 * 根据权限id查询角色id
+	 * @param permissonId
+	 * @return
+	 */
+    List<Integer> findRoleIdsByPermissionId(Integer permissonId);
 }

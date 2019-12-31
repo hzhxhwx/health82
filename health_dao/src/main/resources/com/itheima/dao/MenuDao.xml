@@ -68,14 +68,27 @@
 
         from t_menu
         <where>
-            <if test="queryString!=null and queryString.length>0">
-                name like #{queryString}
+            <if test="value!=null and value.length>0">
+                name like #{value}
             </if>
         </where>
     </select>
     <!--   根据菜单id查询角色id-->
     <select id="findRoleIdsByMenuId" resultType="java.lang.Integer" parameterType="integer">
         select role_id from t_role_menu where menu_id = #{menuId}
+    </select>
+    <select id="findById" resultType="com.itheima.pojo.Menu" parameterType="integer">
+        select
+
+        name as title,
+        linkUrl,
+        path,
+        priority,
+        description,
+        icon,
+        parentMenuId
+
+        from t_menu where id = #{id}
     </select>
 
     <!--通过id删除菜单-->
