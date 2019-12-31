@@ -1,8 +1,8 @@
 package com.itheima.dao;
 
+import com.github.pagehelper.Page;
 import com.itheima.pojo.Role;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -19,8 +19,36 @@ public interface RoleDao {
     Set<Role> findByUserId(Integer userId);
 
     /**
-     * 查询所有角色
+     * 分页查询
      * @return
      */
-    List<Role> findAll();
+    Page<Role> findPage(String queryString);
+
+    /**
+     * 根据ID查询角色信息
+     * @param id
+     * @return
+     */
+    Role findById(Integer id);
+
+    /**
+     * 编辑角色
+     */
+    void update(Role role);
+
+    /**
+     * 根据角色ID查询是否被user引用
+     * @param id
+     * @return
+     */
+    Integer findAssociatinById(Integer id);
+
+    void deleteAssociationByRoleIdFromt_role_permission(Integer id);
+    void deleteAssociationByRoleIdFromt_role_menu(Integer id);
+    void deleteAssociationByRoleIdFromt_user_role(Integer id);
+    void deleteById(Integer id);
+
+    void add(Role role);
+
+
 }

@@ -75,8 +75,6 @@ public class UserController {
         //调用service
         PageResult<com.itheima.pojo.User> result = userService.findPage(queryPageBean);
         return new Result(true,MessageConstant.QUERY_USER_SUCCESS,result);
-
-
     }
 
     /**

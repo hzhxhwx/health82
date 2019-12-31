@@ -74,4 +74,5 @@ public interface UserDao {
      * @param userId
      */
     void deleteUser(Integer userId);
+
 }
