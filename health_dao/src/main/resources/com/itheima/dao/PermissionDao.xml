@@ -8,4 +8,61 @@
             select permission_id from t_role_permission where role_id=#{roleId}
         )
     </select>
+
+    <!--添加权限-->
+    <insert id="addPermission" parameterType="permission">
+        <selectKey resultType="int" keyProperty="id" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        insert into t_permission
+        values(
+        #{id},
+        #{name},
+        #{keyword},
+        #{description}
+        )
+    </insert>
+    <!--通过id删除权限-->
+    <delete id="deletePermission" parameterType="Integer">
+        delete from t_permission
+        where id = #{id}
+    </delete>
+    <!--查询权限列表数据-->
+    <select id="getPermissions" resultType="permission">
+        select * from t_permission
+    </select>
+    <!--通过id获取权限-->
+    <select id="findById" parameterType="Integer" resultType="permission">
+        select * from t_permission
+        where id = #{id}
+    </select>
+    <!--修改权限-->
+    <update id="update" parameterType="permission">
+        update t_permission set
+            id=#{id},
+            name=#{name},
+            keyword=#{keyword},
+            description=#{description}
+        where id = #{id}
+    </update>
+    <!--通过id删除中间表中的关联-->
+    <delete id="deleteAssociationWithRole" parameterType="Integer">
+        delete from t_role_permission
+        where permission_id = #{id}
+    </delete>
+    <!---->
+    <select id="findByCondition" parameterType="String" resultType="permission">
+        select * from t_permission
+        <where>
+            <if test="value != null and value.length > 0">
+                name like #{value} or keyword like #{value}
+            </if>
+        </where>
+    </select>
+
+    <!--添加中间表关系-->
+    <insert id="addPermissionRole" parameterType="Integer">
+        insert into t_role_permission
+        values(#{roleId}, #{permissionId})
+    </insert>
 </mapper>

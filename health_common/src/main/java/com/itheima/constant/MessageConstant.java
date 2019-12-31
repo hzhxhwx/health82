@@ -99,4 +99,8 @@ public interface MessageConstant {
     static final String GET_BUSINESS_REPORT_FAIL = "获取运营统计数据失败";
     static final String GET_PACKAGE_LIST_SUCCESS = "查询套餐列表数据成功";
     static final String GET_PACKAGE_LIST_FAIL = "查询套餐列表数据失败";
+	static final String DELETE_PERMISSION_SUCCESS = "权限删除成功";
+	static final String DELETE_PERMISSION_FAIL = "权限删除失败";
+    static final String QUERY_PERMISSION_SUCCESS = "权限查询成功";
+    static final String QUERY_PERMISSION_FAIL = "权限查询失败";
 }
