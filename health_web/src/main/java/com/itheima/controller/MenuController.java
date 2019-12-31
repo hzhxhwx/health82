@@ -53,4 +53,12 @@ public class MenuController {
         List<Integer> RoleIds = menuService.findRoleIdsByMenuId(menuId);
         return new Result(true,MessageConstant.QUERY_MENU_SUCCESS,RoleIds);
     }
+    /**
+     * 通过id删除菜单
+     */
+    @RequestMapping
+    public Result delete(Integer id){
+        menuService.delete(id);
+        return new Result(true, MessageConstant.DELETE_MEMBER_SUCCESS);
+    }
 }

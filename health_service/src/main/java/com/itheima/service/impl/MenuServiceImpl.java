@@ -204,4 +204,12 @@ public class MenuServiceImpl implements MenuService {
     public List<Integer> findRoleIdsByMenuId(Integer menuId) {
         return menuDao.findRoleIdsByMenuId(menuId);
     }
+
+    @Override
+    public void delete(Integer id) {
+        //清除中间表中的关系
+        menuDao.deleteAssociationWithRole(id);
+        //调用dao通过id删除权限
+        menuDao.delete(id);
+    }
 }

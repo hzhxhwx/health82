@@ -41,4 +41,10 @@ public interface MenuService {
      * @return
      */
     List<Integer> findRoleIdsByMenuId(Integer menuId);
+
+    /**
+     * 通过id删除菜单
+     * @param id
+     */
+	void delete(Integer id);
 }
