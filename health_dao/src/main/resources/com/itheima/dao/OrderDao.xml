@@ -91,4 +91,13 @@
     <select id="findOrderCountBetweenDate" parameterType="string" resultType="int">
         select count(1) from t_order where orderDate between #{startDate} and #{endDate}
     </select>
+
+
+
+    <select id="queryMemberTelephone" parameterType="String" resultType="String">
+        SELECT m.`phoneNumber` telephone FROM t_order r
+          JOIN t_member m ON r.`member_id`=m.`id`
+        WHERE r.`orderDate`=#{value}
+    </select>
+
 </mapper>
