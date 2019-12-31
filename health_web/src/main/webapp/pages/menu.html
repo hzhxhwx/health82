@@ -60,14 +60,11 @@
             </div>
             <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
                 <el-table-column type="index" align="center" label="序号"></el-table-column>
-                <el-table-column prop="name" label="菜单名称" align="center"></el-table-column>
-
-
+                <el-table-column prop="title" label="菜单名称" align="center"></el-table-column>
                 <el-table-column prop="linkUrl" label="页面路径" align="center"></el-table-column>
                 <el-table-column prop="path" label="菜单路径" align="center"></el-table-column>
                 <el-table-column prop="priority" label="优先级" align="center"></el-table-column>
                 <el-table-column prop="parentMenuId" label="父菜单id" align="center"></el-table-column>
-                <el-table-column prop="level" label="菜单级别" align="center"></el-table-column>
                 <el-table-column label="操作" align="center">
                     <template slot-scope="scope">
                         <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
@@ -96,7 +93,7 @@
 
                                         <el-col :span="12">
                                             <el-form-item label="菜单名称">
-                                                <el-input v-model="formData.name"/>
+                                                <el-input v-model="formData.title"/>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="12">
@@ -179,46 +176,45 @@
                                     <el-row>
 
                                         <el-col :span="12">
-                                            <el-form-item label="用户名">
-                                                <el-input v-model="formData.username"/>
+                                            <el-form-item label="菜单名称">
+                                                <el-input v-model="formData.title"/>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="12">
-                                            <el-form-item label="密码">
-                                                <el-input v-model="formData.password"/>
+                                            <el-form-item label="页面路径">
+                                                <el-input v-model="formData.linkUrl"/>
                                             </el-form-item>
                                         </el-col>
                                     </el-row>
                                     <el-row>
+
                                         <el-col :span="12">
-                                            <el-form-item label="性别">
-                                                <el-select v-model="formData.gender">
-                                                    <el-option label="不限" value="0"></el-option>
-                                                    <el-option label="男" value="1"></el-option>
-                                                    <el-option label="女" value="2"></el-option>
-                                                </el-select>
+                                            <el-form-item label="菜单路径">
+                                                <el-input v-model="formData.path"/>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="12">
-                                            <el-form-item label="状态">
-                                                <el-input v-model="formData.station"/>
+                                            <el-form-item label="优先级">
+                                                <el-input v-model="formData.priority"></el-input>
                                             </el-form-item>
                                         </el-col>
                                     </el-row>
+
                                     <el-row>
-                                        <el-col :span="24">
-                                            <el-form-item label="说明">
-                                                <el-input v-model="formData.remark" type="textarea"></el-input>
+                                        <el-col :span="12">
+                                            <el-form-item label="父菜单id">
+                                                <el-input v-model="formData.parentMenuId"></el-input>
+                                            </el-form-item>
+                                        </el-col>
+
+                                        <el-col :span="12">
+                                            <el-form-item label="菜单等级">
+                                                <el-input v-model="formData.level"></el-input>
                                             </el-form-item>
                                         </el-col>
                                     </el-row>
-                                    <el-row>
-                                        <el-col :span="24">
-                                            <el-form-item label="手机号码">
-                                                <el-input v-model="formData.telephone" type="textarea"></el-input>
-                                            </el-form-item>
-                                        </el-col>
                                     </el-row>
+
                                 </el-form>
                             </el-tab-pane>
                             <el-tab-pane label="角色信息" name="second">
@@ -298,7 +294,7 @@
             //添加
             handleAdd () {
                 // 提交数据, json => map  map.put(key, value)
-                this.formData.checkItems=[];
+                this.formData.roles=[];
                 //$.each(e,i) 遍历
                 //this.roleIds.forEach(e=>{
                 // array的push方法，list.add, {}创建对象,{id: e}
@@ -354,7 +350,7 @@
                 // 弹出添加窗口
                 this.dialogFormVisible = true;
                 // 加载检查项列表数据
-                axios.get('/checkitem/findAll.do').then(res => {
+                axios.get('/role/findAll.do').then(res => {
                     if(res.data.flag){
                         //成功绑定检查项列表数据
                         // {flag, message, data: []}

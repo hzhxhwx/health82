@@ -3,6 +3,32 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itheima.dao.MenuDao">
+<!--    菜单和角色的关系-->
+    <insert id="addMenuAndRole" parameterType="map">
+        insert into t_role_menu (role_id,menu_id)
+        values
+        (#{role_id},#{menu_id})
+    </insert>
+<!--    添加菜单-->
+    <insert id="add" parameterType="map">
+        insert into t_menu (    name,
+                                linkUrl,
+                                path,
+                                priority,
+                                description,
+                                icon,
+                                parentMenuId
+    )
+    values
+    (#{name}
+    ,#{linkUrl}
+    ,#{path}
+    ,#{priority}
+    ,#{description}
+    ,#{icon}
+    ,#{parentMenuId}
+    )
+    </insert>
 
     <select id="getMenuByUsername" parameterType="String" resultType="Menu">
             SELECT m.id,m.name title,m.path,m.icon,m.parentMenuId,m.linkUrl
@@ -10,5 +36,23 @@
                 t_menu m,t_role_menu rm,t_user_role ur,t_user u
             WHERE
                 m.id=rm.menu_id AND rm.role_id=ur.role_id AND ur.user_id=u.id AND u.username=#{username}
+    </select>
+<!--    菜单分页查询-->
+    <select id="findPage" resultType="com.itheima.pojo.Menu" parameterType="string">
+        select
+        name as title,
+        linkUrl,
+        path,
+        priority,
+        description,
+        icon,
+        parentMenuId
+
+        from t_menu
+        <where>
+            <if test="queryString!=null and queryString.length>0">
+                name like #{queryString}
+            </if>
+        </where>
     </select>
 </mapper>

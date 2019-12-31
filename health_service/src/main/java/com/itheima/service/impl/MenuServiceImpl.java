@@ -4,16 +4,26 @@ package com.itheima.service.impl;
  */
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.StringUtil;
+import com.itheima.constant.MessageConstant;
 import com.itheima.dao.MenuDao;
+import com.itheima.entity.PageResult;
+import com.itheima.entity.QueryPageBean;
+import com.itheima.entity.Result;
 import com.itheima.pojo.Menu;
 import com.itheima.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service(interfaceClass = MenuService.class)
+@Transactional
 public class MenuServiceImpl implements MenuService {
     @Autowired
     private MenuDao menuDao;
@@ -105,5 +115,58 @@ public class MenuServiceImpl implements MenuService {
             parentMenu.getChildren().add(menu);
         }
         return level1MenuList;
+    }
+
+    /**
+     * 菜单分页查询
+     * @param queryPageBean
+     * @return
+     */
+    @Override
+    public Result findPage(QueryPageBean queryPageBean) {
+        if (!StringUtil.isEmpty(queryPageBean.getQueryString())) {
+            queryPageBean.setQueryString("%"+queryPageBean.getQueryString()+"%");
+        }
+        PageHelper.startPage(queryPageBean.getCurrentPage(),queryPageBean.getPageSize());
+        Page<Menu> page = menuDao.findPage(queryPageBean.getQueryString());
+        PageResult<Menu> result = new PageResult<Menu>(page.getTotal(),page.getResult());
+        return new Result(true, MessageConstant.QUERY_MENU_SUCCESS,result);
+
+    }
+
+    /**
+     * 添加菜单
+     * @param roleIds
+     * @param menu
+     */
+    @Override
+    public void add(Integer[] roleIds, Menu menu) {
+        //添加菜单
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("name",menu.getTitle());
+        map.put("linkUrl",menu.getLinkUrl());
+        map.put("path",menu.getPath());
+        map.put("priority",menu.getPriority());
+        map.put("description",menu.getDescription());
+        map.put("icon",menu.getIcon());
+        map.put("parentMenuId",menu.getParentMenuId());
+        menuDao.add(map);
+        //建立关系
+        addMenuAndRole(roleIds,menu);
+    }
+
+    public void addMenuAndRole(Integer[] roleIds, Menu menu){
+        Integer id = menu.getId();
+        Map<String, Integer> map = new HashMap<>();
+        if (id!=null){
+            for (Integer roleId : roleIds) {
+                //添加关系表
+                map.put("menu_id", id);
+                map.put("role_id", roleId);
+
+            }
+            menuDao.addMenuAndRole(map);
+        }
+
     }
 }

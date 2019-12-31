@@ -4,6 +4,16 @@ package com.itheima.constant;
  * 消息常量
  */
 public interface MessageConstant {
+    static final String DELETE_MENU_FAIL = "删除菜单失败";
+    static final String DELETE_MENU_FAIL_USED = "删除菜单已经被使用了";
+    static final String DELETE_MENU_SUCCESS = "删除菜单成功";
+    static final String ADD_MENU_SUCCESS = "新增菜单成功";
+    static final String ADD_MENU_FAIL = "新增菜单失败";
+    static final String EDIT_MENU_FAIL = "编辑菜单失败";
+    static final String EDIT_MENU_SUCCESS = "编辑菜单成功";
+    static final String QUERY_MENU_SUCCESS = "查询菜单成功";
+    static final String QUERY_MENU_FAIL = "菜单查询失败";
+
     static final String DELETE_USER_FAIL = "删除用户失败";
     static final String DELETE_USER_FAIL_USED = "删除用户已经被使用了";
     static final String DELETE_USER_SUCCESS = "删除用户成功";
