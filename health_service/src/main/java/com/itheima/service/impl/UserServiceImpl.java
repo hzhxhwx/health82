@@ -12,6 +12,7 @@ import com.itheima.pojo.Permission;
 import com.itheima.pojo.Role;
 import com.itheima.pojo.User;
 import com.itheima.service.UserService;
+import org.apache.zookeeper.data.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.StringUtils;
@@ -161,5 +162,18 @@ public class UserServiceImpl implements UserService {
            userDao.addUserAndRole(map);
        }
 
+    }
+
+    /**
+     * 删除用户
+     * @param userId
+     */
+    @Override
+    public void delete(Integer userId) {
+        //删除用户和角色之间的关系
+        userDao.deleteUserAndRole(userId);
+
+        //删除用户
+        userDao.deleteUser(userId);
     }
 }

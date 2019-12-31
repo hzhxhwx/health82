@@ -60,4 +60,10 @@ public interface UserService {
      * @param user
      */
     void update(Integer[] roleIds, User user);
+
+    /**
+     * 删除用户
+     * @param userId
+     */
+    void delete(Integer userId);
 }

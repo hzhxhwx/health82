@@ -124,4 +124,16 @@ public class UserController {
         userService.update(roleIds,user);
         return new Result(true,MessageConstant.EDIT_USER_SUCCESS);
     }
+
+    /**
+     * 删除用户
+     * @param userId
+     * @return
+     */
+    @RequestMapping("/delete")
+    public Result delete(Integer userId){
+        //调用service
+        userService.delete(userId);
+        return new Result(true,MessageConstant.DELETE_USER_SUCCESS);
+    }
 }
