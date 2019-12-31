@@ -27,4 +27,18 @@ public interface MenuService {
      * @param menu
      */
     void add(Integer[] roleIds, Menu menu);
+
+    /**
+     * 更新菜单
+     * @param menu
+     * @param roleIds
+     */
+    void update(Menu menu, Integer[] roleIds);
+
+    /**
+     * 根据菜单id查询角色id
+     * @param menuId
+     * @return
+     */
+    List<Integer> findRoleIdsByMenuId(Integer menuId);
 }

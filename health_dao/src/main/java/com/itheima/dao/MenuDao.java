@@ -27,7 +27,35 @@ public interface MenuDao {
 
     /**
      * 添加菜单
-     * @param menu
+     * @param map
      */
     void add(Map map);
+
+
+
+    /**
+     * 删除中间表关系
+     * @param id
+     */
+    void deleteAssociationWithRole(Integer id);
+
+    /**
+     * 添加中间表关系
+     * @param roleId
+     * @param id
+     */
+    void addMenuRole(Integer roleId, Integer id);
+
+    /**
+     *更新菜单
+     * @param map
+     */
+    void update(Map map);
+
+    /**
+     * 根据菜单id查询角色id
+     * @param menuId
+     * @return
+     */
+    List<Integer> findRoleIdsByMenuId(Integer menuId);
 }

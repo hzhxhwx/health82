@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * 菜单
  * @Author hzh
@@ -31,5 +33,24 @@ public class MenuController {
     public Result add(Integer[] roleIds, @RequestBody Menu menu){
         menuService.add(roleIds,menu);
         return new Result(true, MessageConstant.ADD_MENU_SUCCESS);
+    }
+
+    /**
+     * 菜单更新
+     * @param menu
+     * @param roleIds
+     * @return
+     */
+    @RequestMapping("/update")
+    public Result update(@RequestBody Menu menu, Integer[] roleIds){
+        // 调用业务服务修改检查组
+        menuService.update(menu, roleIds);
+        return new Result(true, MessageConstant.EDIT_CHECKGROUP_SUCCESS);
+    }
+
+    @RequestMapping("/findRoleIdsByMenuId")
+    public Result findRoleIdsByMenuId(Integer menuId){
+        List<Integer> RoleIds = menuService.findRoleIdsByMenuId(menuId);
+        return new Result(true,MessageConstant.QUERY_MENU_SUCCESS,RoleIds);
     }
 }

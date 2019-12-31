@@ -29,6 +29,23 @@
     ,#{parentMenuId}
     )
     </insert>
+    <insert id="addMenuRole"></insert>
+    <update id="update" parameterType="map">
+        update t_menu set
+        name=#{name,},
+        linkUrl=#{linkUrl,},
+        path=#{path,},
+        priority=#{priority,},
+        description=#{description,},
+        icon=#{icon,},
+        parentMenuId=#{parentMenuId}
+        where id = #{id}
+
+    </update>
+    <!--    删除菜单和角色的关系-->
+    <delete id="deleteAssociationWithRole" parameterType="integer">
+        delete from t_role_menu where menu_id  = #{id}
+    </delete>
 
     <select id="getMenuByUsername" parameterType="String" resultType="Menu">
             SELECT m.id,m.name title,m.path,m.icon,m.parentMenuId,m.linkUrl
@@ -40,6 +57,7 @@
 <!--    菜单分页查询-->
     <select id="findPage" resultType="com.itheima.pojo.Menu" parameterType="string">
         select
+        id,
         name as title,
         linkUrl,
         path,
@@ -55,4 +73,10 @@
             </if>
         </where>
     </select>
+<!--    根据菜单id查询角色id-->
+    <select id="findRoleIdsByMenuId" resultType="java.lang.Integer" parameterType="integer">
+        select role_id from t_role_menu where menu_id = #{menuId}
+    </select>
+
+
 </mapper>
